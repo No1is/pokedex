@@ -26,4 +26,4 @@ jobs:
       - name: Test end 2 end
         run: npm run test:e2e
       - name: Trigger deployment
-        run: curl http://api.render.com/deploy/src-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
+        run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
