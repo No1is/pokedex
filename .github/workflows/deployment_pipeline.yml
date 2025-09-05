@@ -35,19 +35,6 @@ jobs:
           title: "Build failed"
           description: "Commit <https://github.com/${{ github.repository }}/commit/${{ github.sha }}> by **${{ github.actor }}** broke the build :("
           color: 15158332
-          fields: |
-            [
-              {
-                "name": "branch",
-                "value": "${{ github.ref_name }}",
-                "inline": true
-              },
-              {
-                "name": "Workflow",
-                "value": "[Run logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})",
-                "inline": true
-              }
-            ]
       - name: Test
         run: npm run test
       - name: Install playwright browsers
@@ -67,14 +54,6 @@ jobs:
           title: "A new version of Pokedex deployed"
           description: "to <https://pokedex-zegp.onrender.com> by **${{ github.actor }}**"
           color: 3066993
-          fields: |
-            [
-              {
-                "name": "Commit",
-                "value": "<https://github.com/${{ github.repository }}/commit/${{ github.sha }}>",
-                "inline": false
-              }
-            ]
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-latest
