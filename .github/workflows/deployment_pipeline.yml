@@ -26,15 +26,17 @@ jobs:
       - name: Build
         run: npm run build
       - name: Notify build failure
-        uses: rjstone/discord-webhook-notify@v2.2.1
+        uses: sarisia/actions-status-discord@v1
         if: failure()
         with:
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
           username: "No1is / Sam Meir Pokedex part 11 hook"
-          severity: error
+          status: failure
           title: "Build failed"
-          description: "Commit <https://github.com/${{ github.repository }}/commit/${{ github.sha }}> by **${{ github.actor }}** broke the build :("
-          color: 15158332
+          description: | 
+            Commit <https://github.com/${{ github.repository }}/commit/${{ github.sha }}> 
+            Actor: **${{ github.actor }}** broke the build :("
+            Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
       - name: Test
         run: npm run test
       - name: Install playwright browsers
@@ -48,12 +50,15 @@ jobs:
         uses: rjstone/discord-webhook-notify@v2.2.1
         if: success()
         with:
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
           username: "No1is / Sam Meir Pokedex part 11 hook"
-          severity: info
+          status: success
           title: "A new version of Pokedex deployed"
-          description: "to <https://pokedex-zegp.onrender.com> by **${{ github.actor }}**"
-          color: 3066993
+          description: |
+            • Repo: **${{ github.repository }}**
+            • Actor: **${{ github.actor }}**
+            • Run: [View logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+          content: "✅ Deployment finished successfully!"
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-latest
